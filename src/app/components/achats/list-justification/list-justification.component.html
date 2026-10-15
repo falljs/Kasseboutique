@@ -1,0 +1,116 @@
+<div class="container-fluid">
+
+    <app-menu-achat></app-menu-achat>
+    <div class="card-header bg-white py-1 h3 mb-1 justify-content-center text-muted">Liste des justifications</div>
+
+    <div class="card mb-1 p-1">
+        <fieldset>
+            <legend class="mx-3">Recherche</legend>
+            <div class="input-group mb-1">
+                <button [disabled]="isDisable" type="button" (click)="getAllJustify()"
+                    class="btn btn-sm btn-info mx-1 w-auto">
+                    <span *ngIf="!isDisable && !isClick">Tous les Justification</span>
+                    <span *ngIf="isDisable && isClick" class="spinner-border spinner-border-sm mx-1"></span>
+                    <span *ngIf="isDisable && isClick">Chargement...</span>
+                </button>
+                <input name="numero" type="text" id="inputSearch" (keyup)="search()" class="form-control mx-1 w-75"
+                    placeholder="Recherche Par Numéro BL" />
+                <div class="seach-clients-desktop mx-1" id="desktop">
+                    <div class="form-select selected" (click)="showDropdown = !showDropdown">
+                        <ng-container *ngIf="selectedFournisseur; else placeholder">
+                            <span>{{ selectedFournisseur.name }}</span>
+                        </ng-container>
+                        <ng-template #placeholder>
+                            <span>Sélectionner un fournisseur...</span>
+                        </ng-template>
+                        <span class="arrow">&#9662;</span>
+                    </div>
+                    <div class="form-select showlists" *ngIf="showDropdown">
+                        <input type="text" [(ngModel)]="searchSelect" placeholder="Rechercher..." />
+
+                        <div class="showlists-item" *ngFor="let fournisseur of filteredFournisseur"
+                            (click)="selectFournisseur(fournisseur); showDropdown = false">
+                            <span>{{ fournisseur.name }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="seach-clients-mobile mx-1" id="mobile">
+                    <div class="form-select selected" (click)="showDropdown = !showDropdown">
+                        <ng-container *ngIf="selectedFournisseur; else placeholder">
+                            <span>{{ selectedFournisseur.name }}</span>
+                        </ng-container>
+                        <ng-template #placeholder>
+                            <span>Sélectionner un fournisseur...</span>
+                        </ng-template>
+                        <span class="arrow">&#9662;</span>
+                    </div>
+                    <div class="form-select showlists" *ngIf="showDropdown">
+                        <input type="text" [(ngModel)]="searchSelect" placeholder="Rechercher..." />
+
+                        <div class="showlists-item" *ngFor="let fournisseur of filteredFournisseur"
+                            (click)="selectFournisseur(fournisseur); showDropdown = false">
+                            <span>{{ fournisseur.name }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+    </div>
+
+    <div class="card mb-2">
+        <div class="row p-3">
+            <div class="table-responsive border mb-3" style="height: 530px;">
+                <table class="table card-table table-vcenter text-nowrap datatable">
+                    <thead>
+                        <tr>
+                            <th>Numéro BL</th>
+                            <th>Type de Paiement</th>
+                            <th>Chauffeur</th>
+                            <th>Transport</th>
+                            <th>Fournisseur</th>
+                            <th>Total</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngIf="justifyAchats?.length == 0">
+                            <td class="font-italic text-center" colspan="7">
+                                <marquee behavior="alternate" direction="" class="h3 text-warning">
+                                    Aucun justification disponible pour le moment...
+                                </marquee>
+                            </td>
+                        </tr>
+                        <tr
+                            *ngFor="let justifyAchat of justifyAchats | paginate: { itemsPerPage: defaultItem, currentPage: page, totalItems: nbrJustify }">
+                            <td>{{justifyAchat.numero_bl}}</td>
+                            <td>{{justifyAchat.paymentType}}</td>
+                            <td>{{justifyAchat.info_chauffeur}}</td>
+                            <td>{{justifyAchat.transport}}</td>
+                            <td>{{justifyAchat.nom_fn}}</td>
+                            <td>{{justifyAchat.total | number: '1.0-0'}} F CFA</td>
+                            <td>
+                                <a (click)="edit(justifyAchat)" class="btn btn-sm btn-outline-warning mx-1"><i
+                                        class="fa fa-edit"></i></a>
+                                <a (click)="detail(justifyAchat)" class="btn btn-sm btn-outline-primary mx-1"><i
+                                        class="fa fa-eye"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-footer d-flex align-items-center" *ngIf="justifyAchats?.length > 100"
+                style="height: 40px;">
+                <p class="m-0 text-muted">Affichage
+                    <span *ngIf="page == 1">{{defaultItem}}</span>
+                    <span *ngIf="page != 1 && page != nbrPage">{{defaultItem * page}}</span>
+                    <span *ngIf="page != 1 && page == nbrPage">{{nbrJustify}}</span>
+                    sur <span>{{nbrJustify}}</span> Justifications
+                </p>
+                <ul class="pagination m-0 ms-auto mt-3">
+                    <pagination-controls (pageChange)="page = $event" previousLabel="Précédent" nextLabel="Suivant">
+                    </pagination-controls>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

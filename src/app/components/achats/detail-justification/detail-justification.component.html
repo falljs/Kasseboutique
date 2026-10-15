@@ -1,0 +1,148 @@
+<div class="card">
+
+    <div class="row p-3">
+        <div class="row">
+            <div class="col-12">
+                <span class="btn btn-outline-danger alert alert-danger btn-sm mb-2 mx-2" (click)="deleteJustify()">
+                    <i class="fa fa-trash fa-1x mx-2"></i>Supprimer
+                </span>
+                <span (click)="sendJustifyWhatsApp()" [hidden]="!fournisseur?.phone"
+                    class="btn btn-outline-success alert alert-success btn-sm mb-2">
+                    <i class="fa fa-whatsapp fa-1x mx-2"></i> Envoyer WhatsApp
+                </span>
+                <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#modalNumeroFn"
+                    [hidden]="fournisseur?.phone"
+                    [title]="!fournisseur?.phone ? 'Veuillez saisir le numéro client' : ''"
+                    class="btn btn-outline-success alert alert-success btn-sm float-start mb-2">
+                    <span class="h4"> <i class="fa fa-whatsapp fa-1x mx-2"></i> Envoyer WhatsApp </span>
+                </a>
+                <span class="btn btn-outline-primary alert alert-primary btn-sm mb-2 mx-2" (click)="editJustify()">
+                    <i class="fa fa-edit fa-1x mx-2"></i>Modifier
+                </span>
+                <span class="btn btn-outline-warning alert alert-warning btn-sm mb-2 mx-2" (click)="printFacture()">
+                    <i class="fa fa-print fa-1x mx-2"></i>Imprimer
+                </span>
+            </div>
+        </div>
+        <div class="row mb-1 mt-2">
+
+            <div class="col-md">
+                <div class="mb-1">
+                    <label for="basic-url" style="font-weight: 600;" class="form-label">N° BL</label>
+                    <input [(ngModel)]="numero_bl" type="text" class="form-control bg-light" readonly>
+                </div>
+            </div>
+
+            <div class="col-md">
+                <div class="mb-1">
+                    <label for="basic-url" style="font-weight: 600;" id="paiement" class="form-label">Paiement</label>
+                    <input type="text" [(ngModel)]="paiement" name="paiement" class="form-control bg-light" readonly
+                        placeholder="banque, transaction, liquide...">
+                </div>
+            </div>
+
+            <div class="col-md">
+                <div class="mb-1">
+                    <label for="basic-url" style="font-weight: 600;" id="info_chauffeur" class="form-label">Info
+                        Chauffeur</label>
+                    <input type="text" [(ngModel)]="info_chauffeur" name="info_chauffeur" class="form-control bg-light"
+                        readonly placeholder="Nom et Prénom chauffeur et son matricule voiture">
+                </div>
+            </div>
+
+            <div class="col-md">
+                <div class="mb-1">
+                    <label for="basic-url" style="font-weight: 600;" id="transport" class="form-label">Transport
+                    </label>
+                    <input type="text" [(ngModel)]="transport" name="transport" class="form-control bg-light" readonly
+                        placeholder="Nom et Prénom chauffeur et son matricule voiture">
+                </div>
+            </div>
+
+            <div class="col-md">
+                <div class="mb-1">
+                    <label for="basic-url" style="font-weight: 600;" id="nom_fn" class="form-label">Fournisseur
+                    </label>
+                    <input type="text" [(ngModel)]="nom_fn" name="nom_fn" class="form-control bg-light" readonly
+                        placeholder="Fournisseur">
+                </div>
+            </div>
+            <div class="col-md-12 mt-2">
+                <div class="form-group" *ngIf="remarque; else noData">
+                    <label class="mb-2" for="exampleInputEmail1">La remarque</label> <br>
+                    <span class="form-text h3">{{remarque}}</span>
+                </div>
+                <ng-template #noData>
+                    <p class="mx-2">Aucune remarque.</p>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body">
+        <h3>Lignes d'achats</h3>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th style="width: 150px;">Date</th>
+                    <th>Produit</th>
+                    <th>Quantité</th>
+                    <th>Prix Unitaire</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let ligne of lignes; let i = index">
+
+                    <!-- colonnes des données -->
+                    <td>{{ ligne.date }}</td>
+                    <td>{{ ligne.designation }}</td>
+                    <td>{{ ligne.qty }}</td>
+                    <td>{{ ligne.prix_achat | number:'1.0-2'}} F CFA</td>
+                    <td>{{ ligne.totht | number:'1.0-2' }} F CFA</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr class="bg-light text-white">
+                    <td class="bg-secondary fw-bold">TOTAL :</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="bg-secondary">{{ total | number:'1.0-2' }} F CFA</td>
+                </tr>
+            </tfoot>
+        </table>
+
+    </div>
+
+</div>
+
+<div class="modal modal-blur" id="modalNumeroFn" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+        <div class="modal-content">
+
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal-status bg-success"></div>
+            <div class="modal-header">Mettre à jour son numéro</div>
+            <div class="modal-body">
+                <div class="mb-3 mt-2">
+                    <div class="md-2">
+                        <label for="phone" style="font-weight: 600;" class="form-label mt-1">
+                            Numéro de Téléphone
+                        </label>
+                        <input placeholder="Exemple : +221771234567" type="text"
+                            class="form-control border border-info border-5" [(ngModel)]="updateInfo.phone" id="phone"
+                            name="phone">
+                    </div>
+                </div>
+                <div class="row d-flex justify-content-center ">
+                    <div class="col-auto">
+                        <button [disabled]="!updateInfo.phone" (click)="onSubmitUpdatePhone()" type="button"
+                            class="btn btn-success w-100" data-bs-dismiss="modal">Envoyer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

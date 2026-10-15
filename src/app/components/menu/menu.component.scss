@@ -1,0 +1,260 @@
+.menu_desktop {
+  background-color: #333;
+  color: white;
+  top: 0;
+  left: 0;
+}
+
+#mobile {
+  z-index: 99999;
+}
+
+.menu {
+  background-color: #333;
+  position: fixed;
+  color: white;
+  top: 0;
+  left: 0;
+  padding: 10px 0;
+  z-index: 1000;
+}
+
+a:hover {
+  background-color: #FFF;
+  margin-bottom: 4%;
+
+  span {
+    color: black;
+  }
+
+  i {
+    color: black;
+  }
+
+}
+
+@media only screen and (max-width: 992px) {
+  #desktop {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  #mobile {
+    display: none;
+  }
+}
+
+.custom-dropdown-menu {
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.custom-dropdown-menu li:hover {
+  background-color: #343a40;
+  /* Dark background */
+}
+
+.custom-dropdown-menu .dropdown-item:hover {
+  background-color: #343a40;
+  /* Dark background for the items */
+  color: white;
+  /* Optional: Change text color on hover */
+}
+
+//========================
+.nav-item .badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-size: 12px;
+}
+
+.list-group-item {
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.list-group-item:hover {
+  background-color: #f8f9fa;
+}
+
+.list-group-item-actions svg {
+  cursor: pointer;
+}
+
+.text-muted {
+  font-size: 14px;
+}
+
+//========================Calculateur=================================
+.dgb-calc-box {
+  width: 200px;
+  padding: 7px;
+}
+
+.dgb-calc-box table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 5px;
+  margin: 0;
+}
+
+.dgb-calc-box td {
+  width: 25%;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  font-size: 12px;
+  padding: 5px 0;
+  background: rgba(255, 255, 255, 0.05);
+  color: #333;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.dgb-calc-box td:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+#dgbCalcResult {
+  width: 100%;
+  height: 40px;
+  padding: 10px 7px;
+  font-size: 18px;
+  text-align: right;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.15);
+  color: #333;
+  margin-bottom: 5px;
+}
+
+#dgbCalcResult::placeholder {
+  color: #333;
+}
+
+/* Styles simplifiés pour Dark et Light Themes */
+.dark-theme .dgb-calc-box td,
+.light-theme .dgb-calc-box td {
+  background: #fff;
+  color: #333;
+  border-color: #ddd;
+}
+
+.dark-theme #dgbCalcResult,
+.light-theme #dgbCalcResult {
+  background: #fff;
+  border-color: #ddd;
+  color: #333;
+}
+
+.dgb-calc-box td.bg,
+.dgb-calc-box td.dgb-calc {
+  color: #fff !important;
+}
+
+.dgb-calc-box td:hover {
+  background: #f0f0f0;
+}
+
+.menu_desktop {
+  background-color: #333;
+  color: white;
+  top: 0;
+  left: 0;
+}
+
+.menu {
+  background-color: #333;
+  position: fixed;
+  color: white;
+  top: 0;
+  left: 0;
+  padding: 10px 0;
+  z-index: 1000;
+}
+
+a:hover {
+  background-color: #FFF;
+  margin-bottom: 4%;
+
+  span {
+    color: black;
+  }
+
+  i {
+    color: black;
+  }
+
+}
+
+@media only screen and (max-width: 992px) {
+  #desktop {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  #mobile {
+    display: none;
+  }
+}
+
+.custom-dropdown-menu {
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.custom-dropdown-menu li:hover {
+  background-color: #343a40;
+  /* Dark background */
+}
+
+.custom-dropdown-menu .dropdown-item:hover {
+  background-color: #343a40;
+  /* Dark background for the items */
+  color: white;
+  /* Optional: Change text color on hover */
+}
+
+
+
+/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  * +++++++++++++++++++++ Collapse Menu Style ++++++++++++++++++++
+/+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
+
+/* ✅ Sous-menu : couleur de texte claire */
+.sidebar-submenu .nav-link {
+  color: #e0e0e0;
+  /* gris clair lisible */
+  font-size: 0.9rem;
+  padding-left: 2rem;
+  transition: all 0.2s ease;
+}
+
+/* ✅ Hover */
+.sidebar-submenu .nav-link:hover {
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* ✅ Item actif (ex. si l'URL matche) */
+.sidebar-submenu .nav-link.active {
+  font-weight: bold;
+  color: #b36453;
+  /* Bootstrap info */
+}
+
+/* ✅ Icône de flèche */
+.nav-item>a .fa-chevron-down {
+  transition: transform 0.3s ease;
+}
+
+.nav-item>a.collapsed .fa-chevron-down {
+  transform: rotate(0deg);
+}
+
+.nav-item>a:not(.collapsed) .fa-chevron-down {
+  transform: rotate(180deg);
+}

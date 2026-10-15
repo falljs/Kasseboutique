@@ -1,0 +1,1092 @@
+<!-- Navbar -->
+<header class="navbar navbar-expand-md navbar-light d-print-none light-theme">
+  <div class="container-xl">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu"
+      aria-controls="navbar-menu" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
+      <a href=".">
+        <img src="" width="110" height="32" alt="Tabler" class="navbar-brand-image" hidden>
+      </a>
+    </h1>
+    <div class="navbar-nav flex-row order-md-last">
+      <div class="d-none d-md-flex">
+        <!--fullscreen-->
+        <a href="javascript:void(0)" class="nav-link px-0" (click)="toggleFullscreen()">
+          [&nbsp;&nbsp;&nbsp;&nbsp;]
+        </a>
+        <!--theme dark light-->
+        <a href="?theme=dark" class="nav-link px-0 hide-theme-dark" title="Enable dark mode" data-bs-toggle="tooltip"
+          data-bs-placement="bottom">
+          <!-- Download SVG icon from http://tabler-icons.io/i/moon -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+            stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+          </svg>
+        </a>
+        <a href="?theme=light" class="nav-link px-0 hide-theme-light" title="Enable light mode" data-bs-toggle="tooltip"
+          data-bs-placement="bottom">
+          <!-- Download SVG icon from http://tabler-icons.io/i/sun -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+            stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+            <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+          </svg>
+        </a>
+
+        <!--Calculateur-->
+        <div class="nav-item dropdown">
+          <button class="fullscreen-btn" id="btnFullscreen" data-bs-toggle="dropdown" title="calculatrice"
+            style="border: none;background-color:transparent" data-bs-auto-close="outside" aria-expanded="false">
+            <i class="fa fa-calculator fa-2x text-info"></i>
+          </button>
+
+          <ul class="dropdown-menu calculator-dropdown">
+            <div class="dgb-calc-box">
+              <div>
+                <input type="text" id="dgbCalcResult" [value]="result" placeholder="0" autocomplete="off" readonly>
+              </div>
+              <table>
+                <tbody>
+                  <tr>
+                    <td class="bg-danger" (click)="clearAll()">C</td>
+                    <td class="bg-secondary" (click)="clearEntry()">CE</td>
+                    <td class="dgb-calc-oprator bg-primary" (click)="append('/')">/</td>
+                    <td class="dgb-calc-oprator bg-primary" (click)="append('*')">*</td>
+                  </tr>
+                  <tr>
+                    <td (click)="append('7')">7</td>
+                    <td (click)="append('8')">8</td>
+                    <td (click)="append('9')">9</td>
+                    <td class="dgb-calc-oprator bg-primary" (click)="append('-')">-</td>
+                  </tr>
+                  <tr>
+                    <td (click)="append('4')">4</td>
+                    <td (click)="append('5')">5</td>
+                    <td (click)="append('6')">6</td>
+                    <td class="dgb-calc-oprator bg-primary" (click)="append('+')">+</td>
+                  </tr>
+                  <tr>
+                    <td (click)="append('1')">1</td>
+                    <td (click)="append('2')">2</td>
+                    <td (click)="append('3')">3</td>
+                    <td rowspan="2" class="dgb-calc-sum bg-primary" (click)="calculate()">=</td>
+                  </tr>
+                  <tr>
+                    <td colspan="2" (click)="append('0')">0</td>
+                    <td (click)="append('.')">.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </ul>
+        </div>
+        <!--End Calculateur-->
+
+        <div class="nav-item dropdown d-none d-md-flex me-3"
+          *ngIf="userService.checkPermissionExistence(firstRoleName+ ' voir notification Entête')">
+          <a href="#" class="nav-link px-0" data-bs-toggle="dropdown" tabindex="-1" aria-label="Show notifications">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+              stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
+              <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
+            </svg>
+            <span class="badge bg-red">{{ total_pending }}</span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-end dropdown-menu-card" style="width: 300px;">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Notifications</h3>
+              </div>
+              <div class="list-group list-group-flush list-group-hoverable">
+                <!-- Boucle pour afficher chaque notification -->
+                <div *ngFor="let notification of notifications" class="list-group-item">
+                  <div class="row align-items-center">
+                    <div class="col text-truncate">
+                      <!-- Titre de la notification -->
+                      <a href="javascript:void(0);" class="text-body d-block"
+                        (click)="onNotificationClick(notification)">
+                        Rappel:
+                      </a>
+                      <!-- Message de la notification -->
+                      <div class="d-block text-muted text-truncate mt-n1">
+                        <a href="javascript:void(0);" (click)="onNotificationClick(notification)"
+                          style="text-decoration: none;">
+                          {{ notification.message }}
+                          <span *ngIf="notification.order.restant == 0" class="badge bg-success me-1">Payé</span>
+                          <span *ngIf="notification.order.versement != 0 && notification.order.restant != 0"
+                            class="badge bg-warning me-1">En Cours</span>
+                          <span *ngIf="notification.order.versement == 0 && notification.order.restant != 0"
+                            class="badge bg-danger me-1">Non Payé</span>
+                        </a>
+                      </div>
+                    </div>
+                    <!-- Icône pour marquer la notification comme lue et afficher les détails -->
+                    <div class="col-auto">
+                      <a href="javascript:void(0);" class="list-group-item-actions"
+                        (click)="onNotificationClick(notification)">
+                        <i class="fa fa-eye icon text-muted" width="24" height="24"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <!-- Message si aucune notification -->
+                <div *ngIf="!isLoading && notifications.length == 0" class="list-group-item text-center">
+                  <span class="text-muted">Aucune notification</span>
+                </div>
+              </div>
+              <div class="card-header">
+                <a href="javascript:void(0);" (click)="all()">
+                  <h5 class="card-title" style="color: grey; opacity:0.5;font-style:italic">Voir plus</h5>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="nav-item dropdown">
+        <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
+          <span class="avatar avatar-sm" style="background-image: url(/assets/img/avatar.png)"></span>
+          <div class="d-none d-xl-block ps-2">
+            <div>{{ userName }}</div>
+            <div class="mt-1 small text-muted">{{role}}</div>
+          </div>
+        </a>
+        <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+          <a href="javascript:void(0);" class="dropdown-item">Status</a>
+          <a href="javascript:void(0);" class="dropdown-item">Profil</a>
+          <a href="javascript:void(0);" class="dropdown-item">Feedback</a>
+          <div class="dropdown-divider"></div>
+          <a hidden href="javascript:void(0);" class="dropdown-item">Paramètre</a>
+          <a href="javascript:void(0);" (click)="logout()" class="dropdown-item">Logout</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Sidebar Desktop -->
+<aside class="navbar navbar-vertical navbar-expand-lg menu_desktop" id="desktop">
+  <div class="container-fluid">
+
+    <span class="mx-3">
+      <div class="w-100 bg-white mt-2" style="border-radius: 5px;">
+        <a href="javascript:window.location.reload();">
+          <img src="/assets/img/Icone_Stock_logo.png" alt="logo iconeStock" class="navbar-brand-image"
+            style="width:90%; height:150px;">
+        </a>
+      </div>
+    </span>
+
+    <div class="navbar-nav flex-row d-lg-none">
+      <div class="nav-item d-none d-lg-flex me-3">
+        <div class="btn-list">
+          <a href="https://github.com/tabler/tabler" class="btn" target="_blank" rel="noreferrer">
+            <!-- Download SVG icon from http://tabler-icons.io/i/brand-github -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+              stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path
+                d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+            </svg>
+            Source code
+          </a>
+          <a href="https://github.com/sponsors/codecalm" class="btn" target="_blank" rel="noreferrer">
+            <!-- Download SVG icon from http://tabler-icons.io/i/heart -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon text-pink" width="24" height="24" viewBox="0 0 24 24"
+              stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
+            </svg>
+            Sponsor
+          </a>
+        </div>
+      </div>
+      <div class="d-none d-lg-flex">
+        <a href="?theme=dark" class="nav-link px-0 hide-theme-dark" title="Enable dark mode" data-bs-toggle="tooltip"
+          data-bs-placement="bottom">
+          <!-- Download SVG icon from http://tabler-icons.io/i/moon -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+            stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+          </svg>
+        </a>
+        <a href="?theme=light" class="nav-link px-0 hide-theme-light" title="Enable light mode" data-bs-toggle="tooltip"
+          data-bs-placement="bottom">
+          <!-- Download SVG icon from http://tabler-icons.io/i/sun -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+            stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+            <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+          </svg>
+        </a>
+        <div class="nav-item dropdown d-none d-md-flex me-3">
+          <a href="#" class="nav-link px-0" data-bs-toggle="dropdown" tabindex="-1" aria-label="Show notifications">
+            <!-- Download SVG icon from http://tabler-icons.io/i/bell -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+              stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
+              <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
+            </svg>
+            <span class="badge bg-red"></span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-end dropdown-menu-card">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Last updates</h3>
+              </div>
+              <div class="list-group list-group-flush list-group-hoverable">
+                <div class="list-group-item">
+                  <div class="row align-items-center">
+                    <div class="col-auto"><span class="status-dot status-dot-animated bg-red d-block"></span></div>
+                    <div class="col text-truncate">
+                      <a href="#" class="text-body d-block">Example 1</a>
+                      <div class="d-block text-muted text-truncate mt-n1">
+                        Change deprecated html tags to text decoration classes (#29604)
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                      <a href="#" class="list-group-item-actions">
+                        <!-- Download SVG icon from http://tabler-icons.io/i/star -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon text-muted" width="24" height="24"
+                          viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                          stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path
+                            d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="list-group-item">
+                  <div class="row align-items-center">
+                    <div class="col-auto"><span class="status-dot d-block"></span></div>
+                    <div class="col text-truncate">
+                      <a href="#" class="text-body d-block">Example 2</a>
+                      <div class="d-block text-muted text-truncate mt-n1">
+                        justify-content:between ⇒ justify-content:space-between (#29734)
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                      <a href="#" class="list-group-item-actions show">
+                        <!-- Download SVG icon from http://tabler-icons.io/i/star -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon text-yellow" width="24" height="24"
+                          viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                          stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path
+                            d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="list-group-item">
+                  <div class="row align-items-center">
+                    <div class="col-auto"><span class="status-dot d-block"></span></div>
+                    <div class="col text-truncate">
+                      <a href="#" class="text-body d-block">Example 3</a>
+                      <div class="d-block text-muted text-truncate mt-n1">
+                        Update change-version.js (#29736)
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                      <a href="#" class="list-group-item-actions">
+                        <!-- Download SVG icon from http://tabler-icons.io/i/star -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon text-muted" width="24" height="24"
+                          viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                          stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path
+                            d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="list-group-item">
+                  <div class="row align-items-center">
+                    <div class="col-auto"><span class="status-dot status-dot-animated bg-green d-block"></span></div>
+                    <div class="col text-truncate">
+                      <a href="#" class="text-body d-block">Example 4</a>
+                      <div class="d-block text-muted text-truncate mt-n1">
+                        Regenerate package-lock.json (#29730)
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                      <a href="#" class="list-group-item-actions">
+                        <!-- Download SVG icon from http://tabler-icons.io/i/star -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon text-muted" width="24" height="24"
+                          viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                          stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path
+                            d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="nav-item dropdown">
+        <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
+          <span class="avatar avatar-sm" style="background-image: url(./assets/dist/static/avatars/000m.jpg)"></span>
+          <div class="d-none d-xl-block ps-2">
+            <div>Falljs</div>
+            <div class="mt-1 small text-muted">DevOps</div>
+          </div>
+        </a>
+        <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+          <a href="./profile.html" class="dropdown-item">
+            <i class="mx-2 fa fa-user mx-2"></i> Profile
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="./settings.html" class="dropdown-item">
+            <i class="mx-2 fa fa-cog mx-2"></i> Paramétrage
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="./sign-in.html" class="dropdown-item" (click)="logout()">
+            <i class="mx-2 fa fa-sign-out mx-2"></i> Déconnection
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="collapse navbar-collapse" id="sidebar-menu">
+      <ul class="navbar-nav pt-lg-3">
+
+        <!-- Tableau de bord -->
+        <li class="nav-item"
+          *ngIf="userService.checkPermissionExistence(firstRoleName+ ' avoir accès Tableau de bord')">
+          <a [ngClass]="{'bg-white fw-bold text-dark h3': router.url === '/accueil'}" class="nav-link"
+            href="javascript:void(0)" routerLink='/accueil'>
+            <span class="nav-link-title" [ngClass]="{'h3 text-white': router.url != '/accueil'}">
+              <i class="mx-2 fa fa-tachometer"></i>
+              <span class="mx-3">Tableau de bord</span>
+            </span>
+          </a>
+        </li>
+        <div class="dropdown-divider"></div>
+
+        <!-- Dossier -->
+        <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' avoir accès Dossier')">
+          <a [ngClass]="{'bg-white fw-bold text-dark h3': router.url === '/dossier'}" class="nav-link"
+            href="javascript:void(0)" routerLink='/dossier'>
+            <span class="nav-link-title" [ngClass]="{'h3 text-white': router.url != '/dossier'}">
+              <i class="mx-2 fa fa-folder "></i>
+              <span class="mx-3">Dossiers</span>
+            </span>
+          </a>
+        </li>
+        <div class="dropdown-divider"></div>
+
+        <!-- Menu VENTE -->
+        <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' avoir accès Vente')">
+          <a class="nav-link collapsed text-white fw-bold h3" data-bs-toggle="collapse" href="#menuVente" role="button"
+            aria-expanded="false" aria-controls="menuVente">
+            <i class="mx-2 fa fa-shopping-cart"></i>
+            <span class="mx-3">Vente</span>
+            <i class="fa fa-chevron-down float-end"></i>
+          </a>
+          <div class="collapse sidebar-submenu" id="menuVente" style="border: 2px solid #b36453;">
+            <ul class="nav flex-column ms-4">
+              <li class="nav-item"
+                *ngIf="userService.checkPermissionExistence(firstRoleName+ ' créer facture et devis Vente')">
+                <a class="nav-link" [ngClass]="{ 'active': router.url === '/vente' }" routerLink='/vente'
+                  href="javascript:void(0)">
+                  <i class="fa fa-plus-square-o mx-2"></i> Créer
+                </a>
+              </li>
+              <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' voir facture Vente')">
+                <a class="nav-link" [ngClass]="{ 'active': router.url === '/ticket' }" routerLink='/ticket'
+                  href="javascript:void(0)">
+                  <i class="fa fa-book mx-2"></i> Factures
+                </a>
+              </li>
+              <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' voir devis Vente')">
+                <a class="nav-link" [ngClass]="{ 'active': router.url === '/devis' }" routerLink='/devis'
+                  href="javascript:void(0)">
+                  <i class="fa fa-file-text mx-2"></i> Devis
+                </a>
+              </li>
+              <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' voir bon Vente')">
+                <a class="nav-link" [ngClass]="{ 'active': router.url === '/bon' }" routerLink='/bon'
+                  href="javascript:void(0)">
+                  <i class="fa fa-money mx-2"></i> Bons
+                </a>
+              </li>
+              <li class="nav-item"
+                *ngIf="userService.checkPermissionExistence(firstRoleName+ ' voir versements Vente')">
+                <a class="nav-link" [ngClass]="{ 'active': router.url === '/encaissement' }" routerLink='/encaissement'
+                  href="javascript:void(0)">
+                  <i class="fa fa-money mx-2"></i> Versements
+                </a>
+              </li>
+
+            </ul>
+          </div>
+        </li>
+        <div class="dropdown-divider"></div>
+
+        <!-- Menu ACHAT -->
+        <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' avoir accès Achat')">
+          <a class="nav-link collapsed text-white fw-bold h3" data-bs-toggle="collapse" href="#menuAchat" role="button"
+            aria-expanded="false" aria-controls="menuAchat">
+            <i class="mx-2 fa fa-cart-arrow-down"></i>
+            <span class="mx-3">Achat</span>
+            <i class="fa fa-chevron-down float-end"></i>
+          </a>
+          <div class="collapse sidebar-submenu" id="menuAchat" style="border: 2px solid #b36453;">
+            <ul class="nav flex-column ms-4">
+
+              <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' créer achat Achat')">
+                <a class="nav-link" [ngClass]="{'active': router.url === '/achat-nouveau'}" href="javascript:void(0)"
+                  routerLink='/achat-nouveau'>
+                  <i class="fa fa-plus-square-o mx-2"></i> Nouveau Achat
+                </a>
+              </li>
+              <li class="nav-item"
+                *ngIf="userService.checkPermissionExistence(firstRoleName+ ' voir facture achat Achat')">
+                <a class="nav-link" [ngClass]="{'active': router.url === '/achat'}" href="javascript:void(0)"
+                  routerLink='/achat'>
+                  <i class="fa fa-book mx-2"></i> Factures Achat
+                </a>
+              </li>
+              <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' voir bon achat Achat')">
+                <a class="nav-link" [ngClass]="{'active': router.url === '/bon-achat'}" href="javascript:void(0)"
+                  routerLink='/bon-achat'>
+                  <i class="fa fa-book mx-2"></i> Bons d'Achat
+                </a>
+              </li>
+              <li class="nav-item"
+                *ngIf="userService.checkPermissionExistence(firstRoleName+ ' avoir accès justification Achat')">
+                <a class="nav-link" [ngClass]="{'active': router.url === '/list-justification-achat'}"
+                  href="javascript:void(0)" routerLink='/list-justification-achat'>
+                  <i class="fa fa-book mx-2"></i> Justification Achat
+                </a>
+              </li>
+
+            </ul>
+          </div>
+        </li>
+        <div class="dropdown-divider"></div>
+
+        <!-- Menu CRM -->
+        <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' avoir accès CRM')">
+          <a class="nav-link collapsed text-white fw-bold h3" data-bs-toggle="collapse" href="#menuCRM" role="button"
+            aria-expanded="false" aria-controls="menuCRM">
+            <i class="mx-2 fa fa-users"></i>
+            <span class="mx-3">CRM</span>
+            <i class="fa fa-chevron-down float-end"></i>
+          </a>
+          <div class="collapse sidebar-submenu" id="menuCRM" style="border: 2px solid #b36453;">
+            <ul class="nav flex-column ms-4">
+
+              <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' voir client CRM')">
+                <a class="nav-link" [ngClass]="{'active': router.url === '/client'}" href="javascript:void(0)"
+                  routerLink='/client'>
+                  <i class="fa fa-users mx-2"></i> Clients
+                </a>
+              </li>
+              <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' voir fournisseur CRM')">
+                <a class="nav-link" [ngClass]="{'active': router.url === '/fournisseur'}" href="javascript:void(0)"
+                  routerLink='/fournisseur'>
+                  <i class="fa fa-users mx-2"></i> Fournisseurs
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <div class="dropdown-divider"></div>
+
+        <!-- Menu Stock -->
+        <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' avoir accès Stock')">
+          <a class="nav-link collapsed text-white fw-bold h3" data-bs-toggle="collapse" href="#menuStock" role="button"
+            aria-expanded="false" aria-controls="menuStock">
+            <i class="mx-2 fa fa-cubes"></i>
+            <span class="mx-3">Stock</span>
+            <i class="fa fa-chevron-down float-end"></i>
+          </a>
+          <div class="collapse sidebar-submenu" id="menuStock" style="border: 2px solid #b36453;">
+            <ul class="nav flex-column ms-4">
+
+              <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' voir produit Stock')">
+                <a class="nav-link" [ngClass]="{'active': router.url === '/produit'}" href="javascript:void(0)"
+                  routerLink='/produit'>
+                  <i class="fa fa-archive mx-2"></i> Produits
+                </a>
+              </li>
+              <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' voir mouvement Stock')">
+                <a class="nav-link" [ngClass]="{'active': router.url === '/mouvement-list'}" href="javascript:void(0)"
+                  routerLink='/mouvement-list'>
+                  <i class="fa fa fa-exchange mx-2"></i> Mouvement
+                </a>
+              </li>
+              <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' voir depôt Stock')">
+                <a class="nav-link" [ngClass]="{'active': router.url === '/depot_I'}" href="javascript:void(0)"
+                  routerLink='/depot_I'>
+                  <i class="fa fa-university mx-2"></i> Depôt
+                </a>
+              </li>
+              <li class="nav-item"
+                *ngIf="userService.checkPermissionExistence(firstRoleName+ ' voir inventaire Stock')">
+                <a class="nav-link" [ngClass]="{'active': router.url === '/inventaires'}" href="javascript:void(0)"
+                  routerLink='/inventaires'>
+                  <i class="fa fa-italic mx-2"></i> Inventaire
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <div class="dropdown-divider"></div>
+
+        <!-- Compte -->
+        <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' avoir accès Compte')">
+          <a [ngClass]="{'bg-white fw-bold text-dark h3': router.url === '/compte'}" class="nav-link"
+            href="javascript:void(0)" routerLink='/compte'>
+            <span class="nav-link-title" [ngClass]="{'h3 text-white': router.url != '/compte'}">
+              <i class="fa fa-credit-card mx-2"></i>
+              <span class="mx-3">Compte</span>
+            </span>
+          </a>
+        </li>
+        <div class="dropdown-divider"></div>
+
+        <!-- Utilisateur -->
+        <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' avoir accès Utilisateur')">
+          <a [ngClass]="{'bg-white fw-bold text-dark h3': router.url === '/utilisateur'}" class="nav-link"
+            href="javascript:void(0)" routerLink='/utilisateur'>
+            <span class="nav-link-title" [ngClass]="{'h3 text-white': router.url != '/utilisateur'}">
+              <i class="mx-2 fa fa-user "></i>
+              <span class="mx-3">Utilisateurs</span>
+            </span>
+          </a>
+        </li>
+        <div class="dropdown-divider"></div>
+
+        <!-- caisse -->
+        <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' avoir accès Caisse')">
+          <a [ngClass]="{'bg-white fw-bold text-dark h3': router.url === '/caisse'}" class="nav-link"
+            href="javascript:void(0)" routerLink='/caisse'>
+            <span class="nav-link-title" [ngClass]="{'h3 text-white': router.url != '/caisse'}">
+              <i class="mx-2 fa fa-money " aria-="true"></i>
+              <span class="mx-3">Caisse</span>
+            </span>
+          </a>
+        </li>
+        <div class="dropdown-divider"></div>
+
+        <!-- caisse -->
+        <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' avoir accès Corbeille')">
+          <a [ngClass]="{'bg-white fw-bold text-dark h3': router.url === '/corbeille'}" class="nav-link"
+            href="javascript:void(0)" routerLink='/corbeille'>
+            <span class="nav-link-title" [ngClass]="{'h3 text-white': router.url != '/corbeille'}">
+              <i class="mx-2 fa fa-trash" aria-="true"></i>
+              <span class="mx-3">Corbeille</span>
+            </span>
+          </a>
+        </li>
+        <div class="dropdown-divider"></div>
+
+        <!-- parametre -->
+        <li hidden class="nav-item"
+          *ngIf="userService.checkPermissionExistence(firstRoleName+ ' avoir accès Paramètre')">
+          <a [ngClass]="{'bg-white fw-bold text-dark h3': router.url === '/parametre'}" class="nav-link"
+            href="javascript:void(0)" routerLink='/parametre'>
+            <span class="nav-link-title" [ngClass]="{'h3 text-white': router.url != '/parametre'}">
+              <i class="mx-2 fa fa-cogs " aria-="true"></i>
+              <span class="mx-3">Paramètres</span>
+            </span>
+          </a>
+        </li>
+        <div class="dropdown-divider"></div>
+
+        <!-- Déconnection -->
+        <li class="nav-item">
+          <a class="nav-link" href="javascript:void(0)" (click)="logout()">
+            <span class="nav-link-title h3 text-white">
+              <i class="mx-2 fa fa-power-off"></i>
+              <span class="mx-3">Déconnexion</span>
+            </span>
+          </a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</aside>
+
+<!-- Sidebar Mobile -->
+<aside class="navbar navbar-vertical navbar-expand-lg menu w-100" id="mobile">
+  <div class="container-fluid">
+    <button class="navbar-toggler text-white" type="button" data-bs-toggle="collapse"
+      data-bs-target="#sidebar-menu-mobile" aria-controls="sidebar-menu" aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-brand navbar-brand-autodark bg-white" style="width:45px; height:40px;">
+      <a href="/">
+        <img src="/assets/img/Icone_Stock_logo.png" width="100%" height="100%" alt="logo iconeStock"
+          class="navbar-brand-image">
+      </a>
+    </div>
+    <div class="navbar-nav flex-row d-lg-none">
+      <div class="nav-item d-none d-lg-flex me-3">
+        <div class="btn-list">
+          <a href="https://github.com/tabler/tabler" class="btn" target="_blank" rel="noreferrer">
+            <!-- Download SVG icon from http://tabler-icons.io/i/brand-github -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+              stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path
+                d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
+            </svg>
+            Source code
+          </a>
+          <a href="https://github.com/sponsors/codecalm" class="btn" target="_blank" rel="noreferrer">
+            <!-- Download SVG icon from http://tabler-icons.io/i/heart -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon text-pink" width="24" height="24" viewBox="0 0 24 24"
+              stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M19.5 12.572l-7.5 7.428l-7.5 -7.428a5 5 0 1 1 7.5 -6.566a5 5 0 1 1 7.5 6.572" />
+            </svg>
+            Sponsor
+          </a>
+        </div>
+      </div>
+      <div class="d-none d-lg-flex">
+        <a href="?theme=dark" class="nav-link px-0 hide-theme-dark" title="Enable dark mode" data-bs-toggle="tooltip"
+          data-bs-placement="bottom">
+          <!-- Download SVG icon from http://tabler-icons.io/i/moon -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+            stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+          </svg>
+        </a>
+        <a href="?theme=light" class="nav-link px-0 hide-theme-light" title="Enable light mode" data-bs-toggle="tooltip"
+          data-bs-placement="bottom">
+          <!-- Download SVG icon from http://tabler-icons.io/i/sun -->
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+            stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+            <path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" />
+            <path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" />
+          </svg>
+        </a>
+        <div class="nav-item dropdown d-none d-md-flex me-3">
+          <a href="#" class="nav-link px-0" data-bs-toggle="dropdown" tabindex="-1" aria-label="Show notifications">
+            <!-- Download SVG icon from http://tabler-icons.io/i/bell -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon" width="24" height="24" viewBox="0 0 24 24"
+              stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+              <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+              <path d="M10 5a2 2 0 0 1 4 0a7 7 0 0 1 4 6v3a4 4 0 0 0 2 3h-16a4 4 0 0 0 2 -3v-3a7 7 0 0 1 4 -6" />
+              <path d="M9 17v1a3 3 0 0 0 6 0v-1" />
+            </svg>
+            <span class="badge bg-red"></span>
+          </a>
+          <div class="dropdown-menu dropdown-menu-arrow dropdown-menu-end dropdown-menu-card">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Last updates</h3>
+              </div>
+              <div class="list-group list-group-flush list-group-hoverable">
+                <div class="list-group-item">
+                  <div class="row align-items-center">
+                    <div class="col-auto"><span class="status-dot status-dot-animated bg-red d-block"></span></div>
+                    <div class="col text-truncate">
+                      <a href="#" class="text-body d-block">Example 1</a>
+                      <div class="d-block text-muted text-truncate mt-n1">
+                        Change deprecated html tags to text decoration classes (#29604)
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                      <a href="#" class="list-group-item-actions">
+                        <!-- Download SVG icon from http://tabler-icons.io/i/star -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon text-muted" width="24" height="24"
+                          viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                          stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path
+                            d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="list-group-item">
+                  <div class="row align-items-center">
+                    <div class="col-auto"><span class="status-dot d-block"></span></div>
+                    <div class="col text-truncate">
+                      <a href="#" class="text-body d-block">Example 2</a>
+                      <div class="d-block text-muted text-truncate mt-n1">
+                        justify-content:between ⇒ justify-content:space-between (#29734)
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                      <a href="#" class="list-group-item-actions show">
+                        <!-- Download SVG icon from http://tabler-icons.io/i/star -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon text-yellow" width="24" height="24"
+                          viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                          stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path
+                            d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="list-group-item">
+                  <div class="row align-items-center">
+                    <div class="col-auto"><span class="status-dot d-block"></span></div>
+                    <div class="col text-truncate">
+                      <a href="#" class="text-body d-block">Example 3</a>
+                      <div class="d-block text-muted text-truncate mt-n1">
+                        Update change-version.js (#29736)
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                      <a href="#" class="list-group-item-actions">
+                        <!-- Download SVG icon from http://tabler-icons.io/i/star -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon text-muted" width="24" height="24"
+                          viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                          stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path
+                            d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="list-group-item">
+                  <div class="row align-items-center">
+                    <div class="col-auto"><span class="status-dot status-dot-animated bg-green d-block"></span></div>
+                    <div class="col text-truncate">
+                      <a href="#" class="text-body d-block">Example 4</a>
+                      <div class="d-block text-muted text-truncate mt-n1">
+                        Regenerate package-lock.json (#29730)
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                      <a href="#" class="list-group-item-actions">
+                        <!-- Download SVG icon from http://tabler-icons.io/i/star -->
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon text-muted" width="24" height="24"
+                          viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
+                          stroke-linejoin="round">
+                          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                          <path
+                            d="M12 17.75l-6.172 3.245l1.179 -6.873l-5 -4.867l6.9 -1l3.086 -6.253l3.086 6.253l6.9 1l-5 4.867l1.179 6.873z" />
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="nav-item dropdown">
+        <a href="#" class="nav-link d-flex lh-1 text-reset p-0" data-bs-toggle="dropdown" aria-label="Open user menu">
+          <span *ngIf="userService.user.image" class="avatar avatar-sm"
+            style="background-image: url('{{userService.urlImg+userService.user.image}}')"></span>
+          <span *ngIf="!userService.user.image" class="avatar avatar-sm"
+            style="background-image: url('/assets/img/avatar.png')"></span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+          <a href="javascript:void(0)" routerLink='/parametre' class="dropdown-item">
+            <i class="mx-2 fa fa-cog mx-2"></i> Paramétrage
+          </a>
+          <div class="dropdown-divider"></div>
+          <a href="javascript:void(0)" (click)="userService.logout()" class="dropdown-item">
+            <i class="mx-2 fa fa-sign-out mx-2"></i> Déconnection
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="collapse navbar-collapse" id="sidebar-menu-mobile">
+      <ul class="navbar-nav pt-lg-3">
+
+        <!-- Tableau de bord -->
+        <li class="nav-item"
+          *ngIf="userService.checkPermissionExistence(firstRoleName+ ' avoir accès Tableau de bord')">
+          <a [ngClass]="{'bg-white fw-bold text-dark h3': router.url === '/accueil'}" class="nav-link"
+            href="javascript:void(0)" routerLink='/accueil' data-bs-toggle="collapse"
+            data-bs-target=".navbar-collapse.show">
+            <span class="nav-link-title" [ngClass]="{'h3 text-white': router.url != '/accueil'}">
+              <i class="mx-2 fa fa-tachometer"></i>
+              <span class="mx-3">Tableau de bord</span>
+            </span>
+          </a>
+        </li>
+        <div class="dropdown-divider"></div>
+
+        <!-- Dossier -->
+        <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' avoir accès Dossier')">
+          <a [ngClass]="{'bg-white fw-bold text-dark h3': router.url === '/dossier'}" class="nav-link"
+            href="javascript:void(0)" routerLink='/dossier' data-bs-toggle="collapse"
+            data-bs-target=".navbar-collapse.show">
+            <span class="nav-link-title" [ngClass]="{'h3 text-white': router.url != '/dossier'}">
+              <i class="mx-2 fa fa-folder "></i>
+              <span class="mx-3">Dossiers</span>
+            </span>
+          </a>
+        </li>
+        <div class="dropdown-divider"></div>
+
+        <!-- Menu VENTE -->
+        <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' avoir accès Vente')">
+          <a class="nav-link collapsed text-white fw-bold h3" data-bs-toggle="collapse" href="#menuVente" role="button"
+            aria-expanded="false" aria-controls="menuVente">
+            <i class="mx-2 fa fa-shopping-cart"></i>
+            <span class="mx-3">Vente</span>
+            <i class="fa fa-chevron-down float-end"></i>
+          </a>
+          <div class="collapse sidebar-submenu" id="menuVente" style="border: 2px solid #b36453;">
+            <ul class="nav flex-column ms-4">
+              <li class="nav-item"
+                *ngIf="userService.checkPermissionExistence(firstRoleName+ ' créer facture et devis Vente')">
+                <a class="nav-link" [ngClass]="{ 'active': router.url === '/vente' }" routerLink='/vente'
+                  href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">
+                  <i class="fa fa-plus-square-o mx-2"></i> Créer
+                </a>
+              </li>
+              <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' voir facture Vente')">
+                <a class="nav-link" [ngClass]="{ 'active': router.url === '/ticket' }" routerLink='/ticket'
+                  href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">
+                  <i class="fa fa-book mx-2"></i> Factures
+                </a>
+              </li>
+              <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' voir devis Vente')">
+                <a class="nav-link" [ngClass]="{ 'active': router.url === '/devis' }" routerLink='/devis'
+                  href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">
+                  <i class="fa fa-file-text mx-2"></i> Devis
+                </a>
+              </li>
+              <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' voir bon Vente')">
+                <a class="nav-link" [ngClass]="{ 'active': router.url === '/bon' }" routerLink='/bon'
+                  href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">
+                  <i class="fa fa-money mx-2"></i> Bons
+                </a>
+              </li>
+              <li class="nav-item"
+                *ngIf="userService.checkPermissionExistence(firstRoleName+ ' voir versements Vente')">
+                <a class="nav-link" [ngClass]="{ 'active': router.url === '/encaissement' }" routerLink='/encaissement'
+                  href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">
+                  <i class="fa fa-money mx-2"></i> Versements
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <div class="dropdown-divider"></div>
+
+        <!-- Menu ACHAT -->
+        <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' avoir accès Achat')">
+          <a class="nav-link collapsed text-white fw-bold h3" data-bs-toggle="collapse" href="#menuAchat" role="button"
+            aria-expanded="false" aria-controls="menuAchat">
+            <i class="mx-2 fa fa-cart-arrow-down"></i>
+            <span class="mx-3">Achat</span>
+            <i class="fa fa-chevron-down float-end"></i>
+          </a>
+          <div class="collapse sidebar-submenu" id="menuAchat" style="border: 2px solid #b36453;">
+            <ul class="nav flex-column ms-4">
+
+              <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' créer achat Achat')">
+                <a class="nav-link" [ngClass]="{'active': router.url === '/achat-nouveau'}" href="javascript:void(0)"
+                  routerLink='/achat-nouveau' data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">
+                  <i class="fa fa-plus-square-o mx-2"></i> Nouveau Achat
+                </a>
+              </li>
+              <li class="nav-item"
+                *ngIf="userService.checkPermissionExistence(firstRoleName+ ' voir facture achat Achat')">
+                <a class="nav-link" [ngClass]="{'active': router.url === '/achat'}" href="javascript:void(0)"
+                  routerLink='/achat' data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">
+                  <i class="fa fa-book mx-2"></i> Factures Achat
+                </a>
+              </li>
+              <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' voir bon achat Achat')">
+                <a class="nav-link" [ngClass]="{'active': router.url === '/bon-achat'}" href="javascript:void(0)"
+                  routerLink='/bon-achat' data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">
+                  <i class="fa fa-book mx-2"></i> Bons d'Achat
+                </a>
+              </li>
+
+              <li class="nav-item"
+                *ngIf="userService.checkPermissionExistence(firstRoleName+ ' avoir accès justification Achat')">
+                <a class="nav-link" [ngClass]="{'active': router.url === '/list-justification-achat'}"
+                  href="javascript:void(0)" routerLink='/list-justification-achat'>
+                  <i class="fa fa-book mx-2"></i> Justification Achat
+                </a>
+              </li>
+
+            </ul>
+          </div>
+        </li>
+        <div class="dropdown-divider"></div>
+
+        <!-- Menu CRM -->
+        <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' avoir accès CRM')">
+          <a class="nav-link collapsed text-white fw-bold h3" data-bs-toggle="collapse" href="#menuCRM" role="button"
+            aria-expanded="false" aria-controls="menuCRM">
+            <i class="mx-2 fa fa-users"></i>
+            <span class="mx-3">CRM</span>
+            <i class="fa fa-chevron-down float-end"></i>
+          </a>
+          <div class="collapse sidebar-submenu" id="menuCRM" style="border: 2px solid #b36453;">
+            <ul class="nav flex-column ms-4">
+
+              <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' voir client CRM')">
+                <a class="nav-link" [ngClass]="{'active': router.url === '/client'}" href="javascript:void(0)"
+                  routerLink='/client' data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">
+                  <i class="fa fa-users mx-2"></i> Clients
+                </a>
+              </li>
+              <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' voir fournisseur CRM')">
+                <a class="nav-link" [ngClass]="{'active': router.url === '/fournisseur'}" href="javascript:void(0)"
+                  routerLink='/fournisseur' data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">
+                  <i class="fa fa-users mx-2"></i> Fournisseurs
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <div class="dropdown-divider"></div>
+
+        <!-- Menu Stock -->
+        <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' avoir accès Stock')">
+          <a class="nav-link collapsed text-white fw-bold h3" data-bs-toggle="collapse" href="#menuStock" role="button"
+            aria-expanded="false" aria-controls="menuStock">
+            <i class="mx-2 fa fa-cubes"></i>
+            <span class="mx-3">Stock</span>
+            <i class="fa fa-chevron-down float-end"></i>
+          </a>
+          <div class="collapse sidebar-submenu" id="menuStock" style="border: 2px solid #b36453;">
+            <ul class="nav flex-column ms-4">
+
+              <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' voir produit Stock')">
+                <a class="nav-link" [ngClass]="{'active': router.url === '/produit'}" href="javascript:void(0)"
+                  routerLink='/produit' data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">
+                  <i class="fa fa-archive mx-2"></i> Produits
+                </a>
+              </li>
+              <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' voir mouvement Stock')">
+                <a class="nav-link" [ngClass]="{'active': router.url === '/mouvement-list'}" href="javascript:void(0)"
+                  routerLink='/mouvement-list' data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">
+                  <i class="fa fa fa-exchange mx-2"></i> Mouvement
+                </a>
+              </li>
+              <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' voir depôt Stock')">
+                <a class="nav-link" [ngClass]="{'active': router.url === '/depot_I'}" href="javascript:void(0)"
+                  routerLink='/depot_I' data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">
+                  <i class="fa fa-university mx-2"></i> Depôt
+                </a>
+              </li>
+              <li class="nav-item"
+                *ngIf="userService.checkPermissionExistence(firstRoleName+ ' voir inventaire Stock')">
+                <a class="nav-link" [ngClass]="{'active': router.url === '/inventaires'}" href="javascript:void(0)"
+                  routerLink='/inventaires' data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">
+                  <i class="fa fa-italic mx-2"></i> Inventaire
+                </a>
+              </li>
+            </ul>
+          </div>
+        </li>
+        <div class="dropdown-divider"></div>
+
+        <!-- Compte -->
+        <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' avoir accès Compte')">
+          <a [ngClass]="{'bg-white fw-bold text-dark h3': router.url === '/compte'}" class="nav-link"
+            href="javascript:void(0)" routerLink='/compte' data-bs-toggle="collapse"
+            data-bs-target=".navbar-collapse.show">
+            <span class="nav-link-title" [ngClass]="{'h3 text-white': router.url != '/compte'}">
+              <i class="fa fa-credit-card mx-2"></i>
+              <span class="mx-3">Compte</span>
+            </span>
+          </a>
+        </li>
+        <div class="dropdown-divider"></div>
+
+        <!-- Utilisateur -->
+        <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' avoir accès Utilisateur')">
+          <a [ngClass]="{'bg-white fw-bold text-dark h3': router.url === '/utilisateur'}" class="nav-link"
+            href="javascript:void(0)" routerLink='/utilisateur' data-bs-toggle="collapse"
+            data-bs-target=".navbar-collapse.show">
+            <span class="nav-link-title" [ngClass]="{'h3 text-white': router.url != '/utilisateur'}">
+              <i class="mx-2 fa fa-user "></i>
+              <span class="mx-3">Utilisateurs</span>
+            </span>
+          </a>
+        </li>
+        <div class="dropdown-divider"></div>
+
+        <!-- caisse -->
+        <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' avoir accès Caisse')">
+          <a [ngClass]="{'bg-white fw-bold text-dark h3': router.url === '/caisse'}" class="nav-link"
+            href="javascript:void(0)" routerLink='/caisse' data-bs-toggle="collapse"
+            data-bs-target=".navbar-collapse.show">
+            <span class="nav-link-title" [ngClass]="{'h3 text-white': router.url != '/caisse'}">
+              <i class="mx-2 fa fa-money " aria-="true"></i>
+              <span class="mx-3">Caisse</span>
+            </span>
+          </a>
+        </li>
+        <div class="dropdown-divider"></div>
+
+        <!-- Corbeille -->
+        <li class="nav-item" *ngIf="userService.checkPermissionExistence(firstRoleName+ ' avoir accès Corbeille')">
+          <a [ngClass]="{'bg-white fw-bold text-dark h3': router.url === '/corbeille'}" class="nav-link"
+            href="javascript:void(0)" routerLink='/corbeille' data-bs-toggle="collapse"
+            data-bs-target=".navbar-collapse.show">
+            <span class="nav-link-title" [ngClass]="{'h3 text-white': router.url != '/corbeille'}">
+              <i class="mx-2 fa fa-trash" aria-="true"></i>
+              <span class="mx-3">Corbeille</span>
+            </span>
+          </a>
+        </li>
+        <div class="dropdown-divider"></div>
+
+        <!-- parametre -->
+        <li hidden class="nav-item"
+          *ngIf="userService.checkPermissionExistence(firstRoleName+ ' avoir accès Paramètre')">
+          <a [ngClass]="{'bg-white fw-bold text-dark h3': router.url === '/parametre'}" class="nav-link"
+            href="javascript:void(0)" routerLink='/parametre' data-bs-toggle="collapse"
+            data-bs-target=".navbar-collapse.show">
+            <span class="nav-link-title" [ngClass]="{'h3 text-white': router.url != '/parametre'}">
+              <i class="mx-2 fa fa-cogs " aria-="true"></i>
+              <span class="mx-3">Paramètres</span>
+            </span>
+          </a>
+        </li>
+        <div class="dropdown-divider"></div>
+
+        <!-- Déconnection -->
+        <li class="nav-item">
+          <a class="nav-link" href="javascript:void(0)" (click)="logout()" data-bs-toggle="collapse"
+            data-bs-target=".navbar-collapse.show">
+            <span class="nav-link-title h3 text-white">
+              <i class="mx-2 fa fa-power-off"></i>
+              <span class="mx-3">Déconnexion</span>
+            </span>
+          </a>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</aside>

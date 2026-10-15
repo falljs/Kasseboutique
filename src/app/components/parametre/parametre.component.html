@@ -1,0 +1,103 @@
+<div class="card">
+  <div class="row g-0">
+    <div class="col-md-12 d-flex flex-column">
+      <div class="card-body">
+        <form [formGroup]="this.formUpdate" (ngSubmit)="onUpdate()">
+          <h3 class="card-title">Detail de L'entreprise</h3>
+          <div class="row g-3">
+            <div class="col-md-6 card">
+
+              <div class="mb-2">
+                <div class="form-label">Nom de l'entreprise</div>
+                <input type="text" class="form-control" formControlName="entreprise" id="entreprise">
+              </div>
+
+              <div class="mb-2">
+                <div class="form-label">Contact</div>
+                <input type="text" class="form-control" formControlName="phone1" id="phone1">
+              </div>
+
+              <div class="mb-2">
+                <div class="form-label">Email</div>
+                <input type="email" class="form-control" formControlName="email" id="email">
+              </div>
+
+              <div class="mb-2">
+                <div class="form-label">Adresse</div>
+                <input type="text" class="form-control" formControlName="adresse" id="adresse">
+              </div>
+
+              <div class="mb-2">
+                <div class="form-label">Année d'archivage</div>
+                <select class="form-select" aria-label="Default select example" name="archive"
+                  formControlName="archive">
+                  <option *ngFor="let year of this.listYears" value="{{year}}">{{year}}</option>
+                </select>
+              </div>
+
+            </div>
+            <div hidden class="col-md"
+              *ngIf="userService.checkPermissionExistence(firstRoleName+ ' activer desactiver maintenance Paramètre')">
+              <div class="form-group">
+                <label for="basic-url" class="mb-1" style="font-weight: 600;">Activer/Désactiver le mode maintenance
+                  :</label>
+                <select class="form-select" (change)="updateMaintenance($event.target)">
+                  <option selected disabled>--Selectionner votre choix--</option>
+                  <option value="inactive">Désactiver</option>
+                  <option value="active">Activer</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <dsiv class="d-flex justify-content-center mb-3 mt-3"
+            *ngIf="userService.checkPermissionExistence(firstRoleName+ ' modifier information Paramètre')">
+            <button [disabled]="!formUpdate.valid" type="submit" class="btn btn-primary">Mettre à jour</button>
+          </dsiv>
+        </form>
+      </div>
+    </div>
+    <!-- <div class="col-md-12 card-header bg-dark text-white mb-2 h2">Les models Factures </div>
+    <div class="col-md-12 row text-center  p-2 justify-content-center space-x ">
+
+      <div *ngFor="let model of this.listModels ; let i = index;" class="card " [hidden]="model.etat == false"
+        [ngClass]="{'border border-lg shadow-lg shadow-success border-success': model.etat == true}"
+        style="width: 18rem;">
+
+        <img src="{{ model.image }}" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h5 class="card-title">Model {{ model.name }} </h5>
+        </div>
+        <div class="d-flex p-2 justify-content-between">
+          <a href="javascript:void(0)" [hidden]="model.etat == true" (click)="Update_model(model.id)"
+            class="btn btn-secondary">Activer</a>
+          <a href="javascript:void(0)" (click)="onDetail(model.image)" data-bs-toggle="modal"
+            data-bs-target="#updateModal" [ngClass]="{'form-control ': model.etat == true}"
+            class="btn btn-info">Afficher</a>
+        </div>
+
+      </div>
+
+    </div> -->
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="image-container">
+          <img class="img-fluid" src="{{template}}" alt="{{template}}" sizes="" srcset="{{template}}">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
